@@ -17,7 +17,6 @@ class Board extends Component {
     }
   }
 
-  /** create a board nrows high/ncols wide, each cell randomly lit or unlit */
 
   createBoard() {
     let board = [];
@@ -33,7 +32,6 @@ class Board extends Component {
     return board
   }
 
-  /** handle changing a cell: update board & determine if winner */
 
   flipCellsAround(coord) {
     let {ncols, nrows} = this.props;
@@ -42,40 +40,39 @@ class Board extends Component {
 
 
     function flipCell(y, x) {
-      // if this coord is actually on board, flip it
 
       if (x >= 0 && x < ncols && y >= 0 && y < nrows) {
         board[y][x] = !board[y][x];
       }
     }
 
-    // TODO: flip this cell and the cells around it
+    flipCell(y, x); //inicial
+    flipCell(y, x - 1); //direita
+    flipCell(y, x + 1); //esquerda
+    flipCell(y - 1, x); //cima
+    flipCell(y + 1, x); //baixo
 
-    // win when every cell is turned off
-    // TODO: determine is the game has been won
 
-    // this.setState({board, hasWon});
+    let hasWon = false;
+
+    this.setState({ board: board, hasWon: hasWon});
   }
 
 
-  /** Render game board or winning message. */
-
   render() {
 
-    // if the game is won, just show a winning msg & render nothing else
-
-    // TODO
-
-    // make table board
-
-    // TODO
     let tableBoard = [];
     for(let y = 0; y < this.props.nrows; y++) {
       let row = [];
       for(let x = 0; x < this.props.ncols; x++) {
-        row.push(<Cell isLit= {this.state.board[y][x]}/>)
+        let coord = `${y}-${x}`
+        row.push(<Cell key={coord} isLit= {this.state.board[y][x]}
+        // O ideal seria criar no construtor para nao criar uma 
+        // nova funcao toda vez que recarregar, por causa da
+        // performance, mas vai ficar assim mesmo.
+        flipCellsAroundMe={() => this.flipCellsAround(coord)}/>)
       }
-      tableBoard.push(<tr>{row}</tr>)
+      tableBoard.push(<tr key={y}>{row}</tr>)
     }
     return (
       <table className="Board">
