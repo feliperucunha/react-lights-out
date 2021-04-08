@@ -78,13 +78,23 @@ class Board extends Component {
       tableBoard.push(<tr key={y}>{row}</tr>)
     }
     return (
-      <table className="Board">
-        <tbody>
-          <tr>
-            {tableBoard}
-          </tr>
-        </tbody>
-      </table>
+      <div>
+        <div>
+          <h1>Welcome to Lights Out</h1>
+        </div>
+
+        <table className="Board">
+          <tbody>
+            <tr>
+              {tableBoard}
+            </tr>
+          </tbody>
+        </table>
+
+        <button className="ReloadButton" onClick={() => window.location.reload(true)}>
+          Reload
+        </button>
+      </div>
     );
   }
 }
