@@ -53,14 +53,17 @@ class Board extends Component {
     flipCell(y + 1, x); //baixo
 
 
-    let hasWon = false;
+    let hasWon = board.every(row => row.every(cell => !cell)) // todas as celulas devem estar desativadas
 
     this.setState({ board: board, hasWon: hasWon});
   }
 
 
   render() {
-
+    if(this.state.hasWon) {
+      return <h1>You won</h1>;
+    }
+    
     let tableBoard = [];
     for(let y = 0; y < this.props.nrows; y++) {
       let row = [];
